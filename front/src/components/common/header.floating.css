@@ -1,0 +1,20 @@
+
+@import '../../libraries/css/menuzord-megamenu.css' ; 
+@import '../../libraries/css/menuzord-skins/menuzord-boxed.css'; 
+
+#menuzord-right .menuzord-brand img {
+    margin-right: 10px;
+} 
+
+
+#menuzord-right .menuzord-brand{
+    color: rgb(226, 255, 7);
+    font-style: oblique;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.menuzord-menu > li > a {
+    color: #ffffff;
+    font-size: 17px;
+}

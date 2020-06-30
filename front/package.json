@@ -1,0 +1,37 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^3.3.6",
+    "express": "^4.16.4",
+    "forever-monitor": "^3.0.0",
+    "jquery": "^2.2.4",
+    "jquery-ui": "^1.12.1",
+    "react": "^16.8.3",
+    "react-app-polyfill": "^0.2.2",
+    "react-dom": "^16.8.3",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "react-social-login": "^3.4.7",
+    "redux": "^4.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "sudo node server.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "video-meeting-backend",
+  "version": "0.0.1",
+  "description": "server for react email confirm",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint --ext .js -c .eslintrc .",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jesse heaslip",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "forever": "^0.15.3",
+    "handlebars": "*",
+    "mongoose": "^5.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9",
+    "now": "^13.0.0"
+  },
+  "engines": {
+    "node": "5.x"
+  }
+}
