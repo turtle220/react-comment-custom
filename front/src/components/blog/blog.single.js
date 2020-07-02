@@ -18,6 +18,7 @@ function SinglePost(props) {
       : 'http://localhost:3111'
 
   useEffect(() => {
+
     fetch(`${API_URL}/blog`, {
       method: 'post',
       headers: {

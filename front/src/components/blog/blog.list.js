@@ -1,9 +1,35 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import Articles from '../../data/articles';
 import PageTitle from '../common/page.title';
 import {Link} from 'react-router-dom';
 
 function BlogList(props) {
+
+
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://samdivtech.com'
+  : 'http://localhost:3111'
+
+  useEffect(() => {
+
+    // console.log("blog post", props.match.params.id);
+    fetch(`${API_URL}/admin/save`, {
+      method: 'post',
+      headers: {
+          accept: 'application/json',
+          'content-type': 'application/json'
+      },
+      // body: JSON.stringify()
+    })
+    .then(res =>
+      res.json()
+    )
+    .then(data => {
+      console.log('data----------- ',data)
+      // setFetchData(data.json())
+    })
+    .catch(err => console.log(err))
+  },[]);
 
     let list = Articles.map((article)=>{
       return (

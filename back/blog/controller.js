@@ -1,4 +1,5 @@
 const Blog = require('../blog.model')
+const Comment = require('../comment.model')
 
 // The callback that is invoked when the user submits the form on the client.
 exports.collectBlog = (req, res) => {
@@ -10,6 +11,7 @@ exports.collectBlog = (req, res) => {
 
   Blog.findOne({ blogId })
     .then(blog => {
+
       if (blog==null) {
         console.log('blog: ', blog)
         Blog.create({ blogId, title, description, image, categories })
@@ -23,6 +25,36 @@ exports.collectBlog = (req, res) => {
       }
     })
     .catch(err => console.log('error ================', err))
+}
+
+
+exports.collectComment = (req, res) => {
+  const title = 'title'
+  const description = 'description'
+  const image = 'image'
+  const categories = 'updateTitle'
+
+  console.log("collectComment", req.body);
+  const { comment }  = req.body;
+
+  Comment.findOne({ comment })
+    .then(content => {
+
+      console.log("comment test-----------------------", content )
+      if (content==null) {
+        console.log('content: ', content)
+        Comment.create({ comment, title, description, image, categories })
+        .then(() => res.json())
+        .catch(err => console.log('create err ===========', err))
+      } else {
+        console.log('content: ', content)
+        Comment.findByIdAndUpdate(comment._id, { categories })
+          .then(() => res.json())
+          .catch(err => console.log('update err ===========', err))
+      }
+    })
+    .catch(err => console.log('error ================', err))
+
 }
 
 // The callback that is invoked when the user visits the confirmation
