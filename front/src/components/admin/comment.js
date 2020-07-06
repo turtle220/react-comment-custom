@@ -92,7 +92,7 @@ class Comment extends React.Component {
       {/* <JwModal id="htmldialog">
         <Login html={this.state.contentHTML} />
       </JwModal> */}
-      <button className="button1" type="button" style={{marginLeft:'50%'}} onClick={this.save}>Save</button>
+      <button className="button1" type="button" style={{marginLeft  :'50%'}} onClick={this.save}>Save</button>
       </>
   }
 }

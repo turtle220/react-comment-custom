@@ -1,44 +1,52 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
+import { useDispatch } from 'react-redux';
+
 import Articles from '../../data/articles';
 import PageTitle from '../common/page.title';
 import {Link} from 'react-router-dom';
 
 function BlogList(props) {
 
+const [fetchdata, setFetchData] = useState({})
+const dispatch = useDispatch();
 
 const API_URL = process.env.NODE_ENV === 'production'
   ? 'https://samdivtech.com'
   : 'http://localhost:3111'
-
-  useEffect(() => {
-
-    // console.log("blog post", props.match.params.id);
-    fetch(`${API_URL}/admin/save`, {
-      method: 'post',
+  
+  useEffect(()=>{
+    fetch(`${API_URL}/bloglist/get`, {
+      method: 'Get',
       headers: {
           accept: 'application/json',
           'content-type': 'application/json'
       },
-      // body: JSON.stringify()
+      // body: JSON.stringify("dfdfd")
     })
     .then(res =>
       res.json()
     )
-    .then(data => {
-      console.log('data----------- ',data)
-      // setFetchData(data.json())
+    .then(data=> {
+      console.log(data,':data----------- ')
+      
+      setFetchData(data);
     })
     .catch(err => console.log(err))
-  },[]);
-
-    let list = Articles.map((article)=>{
+  },[])
+  
+  let comments = fetchdata;
+  
+  const list = Array.isArray(comments) ? 
+    comments.map((comment)=>{
       return (
-        <article className="post clearfix mb-10" key={article.id}>
-          <Link to={`/post/${article.id}`}>
+        <article className="post clearfix mb-10" key={comment.id} onClick={()=>{ dispatch({type: 'SET_BLOGDATA', value: comment }) }}>
+          <Link to={`/post/${comment.id}`}>
             <div className="NewsCard">
               <div className="contentBlock">
                 <h2 className="blue">
-                  {article.title}
+
+                <div dangerouslySetInnerHTML={{ __html: comment.comment }} />
+                  {/* {comment.comment} */}
                 </h2>
                 <div className="detailsBlock">
                   <div className="details">
@@ -60,18 +68,18 @@ const API_URL = process.env.NODE_ENV === 'production'
           </Link>
         </article>
       )
-    })
-
+    }) : null
+   
     return (
       <div className="main-content">
         <PageTitle title="Our Blog" bgimg="images/bg/services.jpg" />
-        <section>
+        <section >
           <div className="container mt-30 mb-30 pt-30 pb-30">
             <div className="row multi-row-clearfix">
               <div className="blog-posts">
                 <div className="col-md-12">
                   <div className="list-dashed">
-                      { list }                             
+                      {list}
                   </div>
                 </div>
               </div>

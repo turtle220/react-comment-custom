@@ -1,0 +1,108 @@
+
+
+/* @media (min-width: 800px).comment-content {
+    max-width: 1120px;
+    padding-bottom: 30px;
+    margin: 0px auto;
+} */
+
+.comment-content {
+  display: block;
+  font-size: 15px;  
+} 
+.comment-title{
+  text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: left;
+    color: rgb(104, 111, 117);
+    margin-bottom: 10px;
+    display: block;
+}
+.comment-wrapper{
+  background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(227, 231, 232);
+    border-image: initial;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size:15px;
+}
+
+.commnet-anchor{
+
+  box-sizing: border-box; 
+  display: block;
+  font-size: 15px;
+}
+.comment-avartar{
+  color: #33AACC;
+  text-decoration: none;  
+  box-sizing: border-box;
+  font-size: 15px;
+}
+.comment-avartar-person{
+  background-image: url(https://res.cloudinary.com/dyd911kmh/image/fetch/t_avatar_thumbnail/https://assets.datacamp.com/users/avatars/002/119/613/square/0_1wzfr0p7ULSYaHEZz3HwQbjdHB8BU6LO1SHEhTgdZX3tooW4rdd2NByuJe3OakEjz3HEKejuoDutMcdcQhk8FXgfgDu-McZUzhkDt0T7HcjRM8d-zkN2ZEKslX?1518456829);
+  border-radius: 20px;
+  min-width: 40px;
+  /* min-height: 40px; */
+  display: inline-block;
+  background-size: cover;
+  background-color: #E6EAEB;
+  background-repeat: no-repeat;
+  color: #33AACC;
+  text-decoration: none;
+  height: 45px;
+}
+
+.comment-des.right{
+  margin-left: 14px;
+  /* width: 0%; */
+  flex: 1 1 auto;
+  font-family: 'Lato',sans-serif;
+  color: #686F75;
+  font-size: 15px;
+}
+
+.comment-profile-name.top{
+    display: flex;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.comment-message{
+  line-height: 1.47;
+  margin-bottom: 15px;
+  overflow-x: auto;
+  font-family: 'Lato',sans-serif;
+  color: #686F75;
+  font-size: 15px;
+}
+
+.comment-detail{
+  display:block;
+  padding-left: 10px;
+  width:100%;
+}
+
+.comment-list{
+  width:100%;
+  display:flex;
+}
+.comment-text{
+  width:100%;
+}
+.comment-name{
+  display: inline-block;
+  color: rgb(61, 66, 81);
+  font-weight: bold;
+}
+.reply{
+ float:right;
+}

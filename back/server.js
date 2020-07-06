@@ -47,7 +47,13 @@ app.use(express.json())
 // This is the endpoint that is hit from the onSubmit handler in Landing.js
 // The callback is shelled off to a controller file to keep this file light.
 app.post('/blog', blogController.collectBlog)
+app.get('/blog', blogController.collectUserCommentdata)
+app.post('/reply', blogController.collectUserComment)
+
 app.post('/admin/save', blogController.collectComment)
+app.get('/bloglist/get', blogController.collectCommentdata)
+
+
 // Catch all to handle all other requests that come into the app.
 app.use('*', (req, res) => {
   res.status(404).json({ msg: 'Not Found' })

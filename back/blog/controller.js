@@ -1,5 +1,6 @@
 const Blog = require('../blog.model')
 const Comment = require('../comment.model')
+const UserComment = require('../usercomment.model');
 
 // The callback that is invoked when the user submits the form on the client.
 exports.collectBlog = (req, res) => {
@@ -25,6 +26,40 @@ exports.collectBlog = (req, res) => {
       }
     })
     .catch(err => console.log('error ================', err))
+}
+
+exports.collectUserComment = (req, res) => {
+
+  console.log(req.body,"collectBlogComment")
+  users = req.body;
+  usercontent = users.content;
+  username = users.name;
+  userpicurl = users.userpicurl;
+  flag = users.flag;
+
+  UserComment.findOne({username})
+    .then(user => {
+
+      if (user==null) {
+        console.log('user -2: ', user)
+        UserComment.create({ usercontent, username, userpicurl, flag })
+        .then(() => res.json())
+        .catch(err => console.log('create err ===========', err))
+      } else {
+        console.log('user-3: ', user)
+        UserComment.findByIdAndUpdate(user._id, { usercontent, username, userpicurl, flag })
+          .then(() => res.json())
+          .catch(err => console.log('update err ===========', err))
+      }
+    })
+    .catch(err => console.log('error ================', err))
+}
+exports.collectUserCommentdata = (req, res) => {
+
+  UserComment.find({}, function(err, result){
+    res.json(result);
+  });
+
 }
 
 
@@ -57,6 +92,14 @@ exports.collectComment = (req, res) => {
 
 }
 
+exports.collectCommentdata = (req, res) => {
+ 
+  Comment.find({}, function(err, result){
+    res.json(result);
+    // console.log(result,"result---------");
+  });
+
+}
 // The callback that is invoked when the user visits the confirmation
 // url on the client and a fetch request is sent in componentDidMount.
 // exports.confirmEmail = (req, res) => {
