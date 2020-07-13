@@ -6,13 +6,13 @@ const fields = {
   comment: {
     type: String
   },
-  title: {
+  commenttitle: {
     type: String
   },
-  description: {
+  commentdescription: {
     type: String
   },
-  image: {
+  commentimage: {
     type: String
   },
   categories: {

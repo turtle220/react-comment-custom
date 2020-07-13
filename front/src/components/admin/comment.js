@@ -1,6 +1,7 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import './admin.css';
 // import axios from 'axios';  
 
 // import { JwModal }  from '../dialog/index'
@@ -54,10 +55,16 @@ class Comment extends React.Component {
   }
   save = ()=>{
 
+    let commentTitle = document.getElementById('title').value + "";
+    let commentDes = document.getElementById('description').value;
+    let commentImage = document.getElementById('Image').value;
+    
     let value = this.state.contentHTML;
  
-    console.log(value,"value")
-    
+    console.log(commentTitle.toString(),"value")
+    console.log(`${commentTitle}`,"value")
+    console.log(`${commentTitle}`,"value")
+
     const API_URL = process.env.NODE_ENV === 'production'
         ? 'https://samdivtech.com'
         : 'http://localhost:3111'
@@ -68,7 +75,7 @@ class Comment extends React.Component {
           accept: 'application/json',
           'content-type': 'application/json'
       },
-      body: JSON.stringify({ comment: value})
+      body: JSON.stringify({ comment: value, title: commentTitle, commentDes: commentDes, commentImage: commentImage})
     })
     .then(res =>
       res.json()
@@ -83,16 +90,42 @@ class Comment extends React.Component {
   render() {
     return <>
 
-      <ReactQuill
+      {/* <ReactQuill
         modules={this.modules}
         theme="snow"
         value={this.state.contentHTML}
         onChange={this.onChangeText}
-      ></ReactQuill>
-      {/* <JwModal id="htmldialog">
-        <Login html={this.state.contentHTML} />
-      </JwModal> */}
-      <button className="button1" type="button" style={{marginLeft  :'50%'}} onClick={this.save}>Save</button>
+        style={{heigh:'120px'}}
+      ></ReactQuill> */}
+      {/* <div style={{width:'1000px', display: 'block'}}>
+        <div style={{display: 'flex'}}><label>Title:</label><input></input></div>
+        <div style={{display: 'flex'}}><label>Description:</label><input></input></div>
+        <div style={{display: 'flex'}}><label>Image:</label><input></input></div>
+      </div> */}
+      {/* <div  */}
+      <div style={{width:'700px'}}>
+        <div class="form-group row">
+          <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Title</label>
+          <div class="col-sm-10">
+            <input type="input" class="form-control form-control-sm" id="title" placeholder="" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Description</label>
+          <div class="col-sm-10">
+            <textarea id="description" style={{width:'100%'}}></textarea>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Image</label>
+          <div class="col-sm-10">
+            <input type="input" class="form-control form-control-sm" id="Image" placeholder="" />
+          </div>
+        </div>
+        
+        <button className="btn btn-primary" style={{float:"right"}} type="submit"  onClick={this.save}>Save</button>
+      </div>
+   
       </>
   }
 }

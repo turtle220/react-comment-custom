@@ -1,7 +1,10 @@
 import React from "react";
+import { Switch, Route, Router } from 'react-router-dom'
 
 import Itemlist from './adminlist';
 import Comment from './comment';
+import Confirm from './confirm';
+import Routeurl from './router';
 
 class AdminPage extends React.Component{
    
@@ -12,10 +15,15 @@ class AdminPage extends React.Component{
                     <Itemlist />
 
                 </div>
-                <div style={{ width: '100%'}} > 
-                    <Comment />
-        
-                </div>         
+            
+                <div style={{    
+                    paddingTop: '50px',
+                    paddingRight: '50px',
+                    paddingLeft: '140px'
+                }} >
+                    <Routeurl />      
+
+                </div>
 
             </div>
         )

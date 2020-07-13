@@ -45,7 +45,7 @@ const API_URL = process.env.NODE_ENV === 'production'
               <div className="contentBlock">
                 <h2 className="blue">
 
-                <div dangerouslySetInnerHTML={{ __html: comment.comment }} />
+                <div dangerouslySetInnerHTML={{ __html: comment.commenttitle }} />
                   {/* {comment.comment} */}
                 </h2>
                 <div className="detailsBlock">

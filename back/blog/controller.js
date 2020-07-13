@@ -64,26 +64,29 @@ exports.collectUserCommentdata = (req, res) => {
 
 
 exports.collectComment = (req, res) => {
-  const title = 'title'
-  const description = 'description'
-  const image = 'image'
-  const categories = 'updateTitle'
+  
+  const comments  = req.body;
+  console.log("collectComment", comments.title);
+  
+  const commenttitle = comments.title;
 
-  console.log("collectComment", req.body);
-  const { comment }  = req.body;
-
-  Comment.findOne({ comment })
+  console.log("commenttitle---:", commenttitle);
+  const commentdescription = comments.commentDes;
+  const commentimage = comments.commentImage;
+  const categories = 'updateTitle';
+  const comment = 'comment';
+  Comment.findOne({ commenttitle })
     .then(content => {
 
       console.log("comment test-----------------------", content )
       if (content==null) {
         console.log('content: ', content)
-        Comment.create({ comment, title, description, image, categories })
+        Comment.create({ comment, commenttitle, commentdescription, commentimage, categories })
         .then(() => res.json())
         .catch(err => console.log('create err ===========', err))
       } else {
         console.log('content: ', content)
-        Comment.findByIdAndUpdate(comment._id, { categories })
+        Comment.findByIdAndUpdate(comment._id, { commenttitle, commentdescription, commentimage})
           .then(() => res.json())
           .catch(err => console.log('update err ===========', err))
       }

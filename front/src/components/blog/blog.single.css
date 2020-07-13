@@ -34,6 +34,9 @@
     font-size:15px;
 }
 
+.child{
+  margin-left:355px;
+}
 .commnet-anchor{
 
   box-sizing: border-box; 
@@ -49,7 +52,7 @@
 .comment-avartar-person{
   background-image: url(https://res.cloudinary.com/dyd911kmh/image/fetch/t_avatar_thumbnail/https://assets.datacamp.com/users/avatars/002/119/613/square/0_1wzfr0p7ULSYaHEZz3HwQbjdHB8BU6LO1SHEhTgdZX3tooW4rdd2NByuJe3OakEjz3HEKejuoDutMcdcQhk8FXgfgDu-McZUzhkDt0T7HcjRM8d-zkN2ZEKslX?1518456829);
   border-radius: 20px;
-  min-width: 40px;
+  min-width: 35px;
   /* min-height: 40px; */
   display: inline-block;
   background-size: cover;
@@ -57,7 +60,7 @@
   background-repeat: no-repeat;
   color: #33AACC;
   text-decoration: none;
-  height: 45px;
+  height: 35px;
 }
 
 .comment-des.right{

@@ -21,7 +21,6 @@ class Itemlist extends React.Component {
 
   render() {
 
-
     return (
       <React.Fragment>
       <Layout style={{ minHeight: '100vh' }}>
@@ -30,6 +29,9 @@ class Itemlist extends React.Component {
             <Menu.Item >
               <span><Link to={{pathname: `/admin`}}>Admin Detail</Link></span>
               {/* <span><Link to={{pathname: `/admin`}}>Admin Detail</Link></span> */}
+            </Menu.Item>
+            <Menu.Item >
+              <span><Link to={{pathname: `/admin/confirm`}}>User Comment</Link></span>
             </Menu.Item>
 
           </Menu>
