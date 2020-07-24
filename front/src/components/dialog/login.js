@@ -10,13 +10,12 @@ function Login(props) {
     const handleSocialLogin = (user) => {
         JwModal.close('auth-modal')()
         const { _profile, _token } = user
-        console.log('handleSocialLogin ', user, _profile, _token)
-        dispatch({type: 'auth_login_success', value: { profile: _profile, token: _token}})
-        // _profile.name, email, profilePicURL, accessToken, expiresAt
+        dispatch({type: 'auth_login_success', value: { auth: true, profile: _profile, token: _token}})
     }
     const handleSocialLoginFailure = (err) => {
         JwModal.close('auth-modal')()
         console.error('handleSocialLoginFailure ', err)
+        dispatch({type: 'auth_login_failure', value: { auth: false}})
     }
     const handleLogoutSuccess = (user) => {
         JwModal.close('auth-modal')()
@@ -55,10 +54,9 @@ function Login(props) {
                         </div>
                         <div className="desktopOnly">Facebook</div>
                     </SocialButton>
-                    {/* <SocialButton
+                    <SocialButton
                         provider='google'
-                        // appId='380989824575-m09tb1rpr96ge5luk47gf20j5bh36c2e.apps.googleusercontent.com' //real site
-                        appId='380989824575-m09tb1rpr96ge5luk47gf20j5bh36c2e.apps.googleusercontent.com'
+                        appId='884561969739-juauams1hcaj9vijogkd4ghqei5v13uc.apps.googleusercontent.com'
                         onLoginSuccess={handleSocialLogin}
                         onLoginFailure={handleSocialLoginFailure}
                         onLogoutSuccess={handleLogoutSuccess}
@@ -73,7 +71,7 @@ function Login(props) {
                             </svg>
                         </div>
                         <div className="desktopOnly">Google +</div>
-                    </SocialButton> */}
+                    </SocialButton>
                 </div>
             </div>
         </>

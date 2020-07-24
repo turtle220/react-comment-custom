@@ -3,19 +3,33 @@ const Schema = mongoose.Schema
 
 // Data we need to collect/confirm to have the app go.
 const fields = {
-  usercontent: {
+  blogId: {
     type: String
   },
-  username: {
+  selfId: {
+    type: Number
+  },
+  parentId: {
+    type: Number
+  },
+  userName: {
     type: String
   },
-  userpicurl: {
+  email: {
     type: String
   },
-  flag: {
+  avatarUrl: {
+    type: String
+  },
+  content: {
+    type: String
+  },
+  commentDate: {
+    type: String
+  },
+  commentAllow: {
     type: Boolean
   }
-  
 }
 
 // One nice, clean line to create the Schema.

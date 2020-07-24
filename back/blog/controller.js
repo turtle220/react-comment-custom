@@ -1,136 +1,119 @@
-const Blog = require('../blog.model')
-const Comment = require('../comment.model')
+// const Blog = require('../blog.model')
+const Blog = require('../Blog.model')
 const UserComment = require('../usercomment.model');
 
-// The callback that is invoked when the user submits the form on the client.
-exports.collectBlog = (req, res) => {
+exports.setComment = (req, res) => {
+  const { comment } = req.body
+
+  UserComment.count({}, function (error, numOfDocs) {
+    if (error) return callback(error);
+
+    // set the data sequence
+    comment.selfId = numOfDocs + 1
+    comment.commentAllow = false
+
+    UserComment.create(comment, function (err, result) {
+      if (err) throw err;
+      if (result) {
+        _getBlogAndComment(comment.blogId, res)
+      }
+    });
+  });
+}
+
+exports.getCommentListWithBlogName = (req, res) => {
+  UserComment.find({ 'commentAllow': false }, async function (err, result) {
+    if (err) throw err;
+
+    var resp = []
+    for (const record of result) {
+      const doc = await Blog.findOne({ '_id': record.blogId });
+      if (!doc) throw new Error('No record found.');
+
+      resp.push({ ...record._doc, blogTitle: doc.blogTitle })
+    }
+    res.json(resp);
+  });
+}
+
+exports.updateCommentAllow = (req, res) => {
+  const comment = req.body;
+
+  UserComment.findByIdAndUpdate({ '_id': comment.updateId },
+    { commentAllow: true })
+    .then(() => res.json('success'))
+    .catch(err => console.log('update err ------------------', err))
+}
+
+exports.getBlogAndComment = (req, res) => {
   const { blogId } = req.body
-  const title = 'title'
-  const description = 'description'
-  const image = 'image'
-  const categories = 'updateTitle'
-
-  Blog.findOne({ blogId })
-    .then(blog => {
-
-      if (blog==null) {
-        console.log('blog: ', blog)
-        Blog.create({ blogId, title, description, image, categories })
-        .then(() => res.json())
-        .catch(err => console.log('create err ===========', err))
-      } else {
-        console.log('blog: ', blog)
-        Blog.findByIdAndUpdate(blog._id, { categories })
-          .then(() => res.json())
-          .catch(err => console.log('update err ===========', err))
-      }
-    })
-    .catch(err => console.log('error ================', err))
+  _getBlogAndComment(blogId, res)
 }
 
-exports.collectUserComment = (req, res) => {
+function _getBlogAndComment(blog_id, res) {
+  const results = {}
 
-  console.log(req.body,"collectBlogComment")
-  users = req.body;
-  usercontent = users.content;
-  username = users.name;
-  userpicurl = users.userpicurl;
-  flag = users.flag;
+  Blog.find().where("_id", blog_id).exec(async function (err, blogs) {
+    results.blogData = blogs
+    const getCommentTree = (blogId, parentId) => {
+      return new Promise(async (resolve, reject) => {
+        const ret = []
+        UserComment.find().where({ blogId, parentId }).exec(async function (err, comments) {
+          if (err) {
+            resolve([])
+          } else {
+            if (comments.length > 0) {
+              for (const comment of comments) {
+                const children = [...await getCommentTree(blogId, comment.selfId)]
+                ret.push({ ...comment._doc, children })
+              }
+            }
+            resolve(ret)
+          }
+        })
+      })
+    }
+    const resJson = await getCommentTree(blog_id, 0);
 
-  UserComment.findOne({username})
-    .then(user => {
-
-      if (user==null) {
-        console.log('user -2: ', user)
-        UserComment.create({ usercontent, username, userpicurl, flag })
-        .then(() => res.json())
-        .catch(err => console.log('create err ===========', err))
-      } else {
-        console.log('user-3: ', user)
-        UserComment.findByIdAndUpdate(user._id, { usercontent, username, userpicurl, flag })
-          .then(() => res.json())
-          .catch(err => console.log('update err ===========', err))
-      }
-    })
-    .catch(err => console.log('error ================', err))
+    results.commentData = resJson
+    res.json(results)
+  });
 }
-exports.collectUserCommentdata = (req, res) => {
 
-  UserComment.find({}, function(err, result){
+exports.getBlogList = (req, res) => {
+  Blog.find({}, function (err, result) {
+    if (err) throw err;
     res.json(result);
   });
-
 }
 
+exports.insertBlog = (req, res) => {
+  const blog = req.body;
 
-exports.collectComment = (req, res) => {
-  
-  const comments  = req.body;
-  console.log("collectComment", comments.title);
-  
-  const commenttitle = comments.title;
+  const blogTitle = blog.blogTitle;
+  const blogDescription = blog.blogDescription;
+  const blogImage = blog.blogImage;
+  const blogOtherImage = blog.blogOtherImage;
 
-  console.log("commenttitle---:", commenttitle);
-  const commentdescription = comments.commentDes;
-  const commentimage = comments.commentImage;
-  const categories = 'updateTitle';
-  const comment = 'comment';
-  Comment.findOne({ commenttitle })
-    .then(content => {
+  let today = new Date().toLocaleDateString(undefined, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
 
-      console.log("comment test-----------------------", content )
-      if (content==null) {
-        console.log('content: ', content)
-        Comment.create({ comment, commenttitle, commentdescription, commentimage, categories })
-        .then(() => res.json())
-        .catch(err => console.log('create err ===========', err))
-      } else {
-        console.log('content: ', content)
-        Comment.findByIdAndUpdate(comment._id, { commenttitle, commentdescription, commentimage})
-          .then(() => res.json())
-          .catch(err => console.log('update err ===========', err))
-      }
-    })
-    .catch(err => console.log('error ================', err))
-
+  Blog.create({ blogTitle, blogDescription, blogImage, blogOtherImage, curDate: today })
+    .then(() => res.json('success'))
+    .catch(err => console.log('create err ------------------', err))
 }
 
-exports.collectCommentdata = (req, res) => {
- 
-  Comment.find({}, function(err, result){
-    res.json(result);
-    // console.log(result,"result---------");
-  });
+exports.updateBlog = (req, res) => {
+  const blog = req.body;
 
+  Blog.findByIdAndUpdate({ '_id': blog.updateId },
+    { blogTitle: blog.blogTitle, blogDescription: blog.blogDescription, blogImage: blog.blogImage, blogOtherImage: blog.blogOtherImage })
+    .then(() => res.json('success'))
+    .catch(err => console.log('update err ------------------', err))
 }
-// The callback that is invoked when the user visits the confirmation
-// url on the client and a fetch request is sent in componentDidMount.
-// exports.confirmEmail = (req, res) => {
-//   const { id } = req.params
-
-//   User.findById(id)
-//     .then(user => {
-
-//       // A user with that id does not exist in the DB. Perhaps some tricky
-//       // user tried to go to a different url than the one provided in the
-//       // confirmation email.
-//       if (!user) {
-//         res.json({ msg: msgs.couldNotFind })
-//       }
-
-//       // The user exists but has not been confirmed. We need to confirm this
-//       // user and let them know their email address has been confirmed.
-//       else if (user && !user.confirmed) {
-//         User.findByIdAndUpdate(id, { confirmed: true })
-//           .then(() => res.json({ msg: msgs.confirmed }))
-//           .catch(err => console.log(err))
-//       }
-
-//       // The user has already confirmed this email address.
-//       else  {
-//         res.json({ msg: msgs.alreadyConfirmed })
-//       }
-
-//     })
-//     .catch(err => console.log(err))
-// }

@@ -1,5 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
+import Config from '../../config.json';
 
 import Articles from '../../data/articles';
 import PageTitle from '../common/page.title';
@@ -10,51 +11,39 @@ function BlogList(props) {
 const [fetchdata, setFetchData] = useState({})
 const dispatch = useDispatch();
 
-const API_URL = process.env.NODE_ENV === 'production'
-  ? 'https://samdivtech.com'
-  : 'http://localhost:3111'
-  
   useEffect(()=>{
-    fetch(`${API_URL}/bloglist/get`, {
-      method: 'Get',
+    fetch(`${Config.serverapi}/getBlogList`, {
+      method: 'post',
       headers: {
           accept: 'application/json',
           'content-type': 'application/json'
       },
-      // body: JSON.stringify("dfdfd")
     })
     .then(res =>
       res.json()
     )
-    .then(data=> {
-      console.log(data,':data----------- ')
-      
+    .then(data=> {      
       setFetchData(data);
     })
     .catch(err => console.log(err))
   },[])
   
-  let comments = fetchdata;
-  
-  const list = Array.isArray(comments) ? 
-    comments.map((comment)=>{
+  let blogs = fetchdata;
+
+  const list = Array.isArray(blogs) ? 
+    blogs.map((blog, index)=>{
       return (
-        <article className="post clearfix mb-10" key={comment.id} onClick={()=>{ dispatch({type: 'SET_BLOGDATA', value: comment }) }}>
-          <Link to={`/post/${comment.id}`}>
+        <article className="post clearfix mb-10" key={blog._id} >
+          <Link to={`/post/${blog._id}`}>
             <div className="NewsCard">
               <div className="contentBlock">
                 <h2 className="blue">
-
-                <div dangerouslySetInnerHTML={{ __html: comment.commenttitle }} />
-                  {/* {comment.comment} */}
+                  <div dangerouslySetInnerHTML={{ __html: blog.blogTitle }} />
                 </h2>
                 <div className="detailsBlock">
                   <div className="details">
-                    <span className="DomainLine">
-                      kdnuggets.com
-                    </span>
                     <span className="date">
-                      5 days ago
+                      { blog.curDate }
                     </span>
                   </div>
                 </div>

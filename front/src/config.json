@@ -1,4 +1,5 @@
 {
     "jsonapi": "http://api.jsonbin.io/b/",
-    "emailapi": "https://ddjswwkq8d.execute-api.eu-west-1.amazonaws.com/"
+    "emailapi": "https://ddjswwkq8d.execute-api.eu-west-1.amazonaws.com/",
+    "serverapi": "http://localhost:3111"
 }

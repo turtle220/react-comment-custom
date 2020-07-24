@@ -1,30 +1,20 @@
 import React from "react";
-import { Switch, Route, Router } from 'react-router-dom'
 
 import Itemlist from './adminlist';
-import Comment from './comment';
-import Confirm from './confirm';
 import Routeurl from './router';
 
 class AdminPage extends React.Component{
    
     render() {
         return (
-            <div style={{ display: 'flex' }}>
-                <div>
+            <div style={{ display: 'flex'}}>
+                <div style={{ backgroundColor: '#001529', paddingTop: '60px' }}>
                     <Itemlist />
-
                 </div>
             
-                <div style={{    
-                    paddingTop: '50px',
-                    paddingRight: '50px',
-                    paddingLeft: '140px'
-                }} >
+                <div style={{ width: '100%'}} >
                     <Routeurl />      
-
                 </div>
-
             </div>
         )
     }

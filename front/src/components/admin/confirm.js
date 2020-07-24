@@ -1,80 +1,73 @@
 import React, { useEffect, useState }  from "react";
+import Config from '../../config.json';
 
 import './admin.css';
 function Confirm(props) {
 
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = useState(true);
     const [userData, setUserData] = useState();
 
-    const API_URL = process.env.NODE_ENV === 'production'
-    ? 'https://samdivtech.com'
-    : 'http://localhost:3111'
-    
     useEffect(() => {
-        fetch(`${API_URL}/blog`, {
-        method: 'get',
-        headers: {
-            accept: 'application/json',
-            'content-type': 'application/json'
-        },
-        // body: JSON.stringify({ flag: checked })
-        })
-        .then(res =>
-        res.json()
-        )
-        .then(data => {
-            console.log('flag*********: ',data)
-            setUserData(data);
-        })
-        .catch(err => console.log(err))
-
+        getCommentListWithBlogName()
     },[]);
     
-    const confirm = ()=>{
-        const username = document.getElementById("username").value;
-        console.log("userDataName*********:", username)
-        fetch(`${API_URL}/reply`, {
+    function getCommentListWithBlogName() {
+        fetch(`${Config.serverapi}/getCommentListWithBlogName`, {
             method: 'post',
             headers: {
                 accept: 'application/json',
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name: username, flag: false })
         })
-        // .then(res =>
-        //     res.json()
-        // )
+        .then(res => res.json())
         .then(data => {
-            
             console.log('flag*********: ',data)
+            setUserData(data);
+        })
+        .catch(err => console.log(err))
+    }
+    const handleConfirm = (id)=>{
+        fetch(`${Config.serverapi}/updateCommentAllow`, {
+            method: 'post',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ updateId: id })
+        })
+        .then(data => {
+            alert('Success')
+            getCommentListWithBlogName()
         })
         .catch(err => console.log(err))
     }
 
     let list =  Array.isArray(userData) ? 
-        userData.map((user, key) => {
+    userData.map((user, key) => {
             return(
-                <tr>
-                    <td> {key} </td>
-                    <td> {user.username}</td>
-                    <td> {user.usercontent}</td>
-                    <td>    
-                        {/* <input type="checkbox" checked={checked} onChange={() => setChecked(!checked)}/> */}
-                        <button className="btn btn-primary" onClick={confirm} value={user.username} id="username"> Confirm </button>
-                    </td>
+                <tr id={user._id}>
+                    <td className="col-md-1" >{ key }</td>
+                    <td className="col-md-2" >{ user.blogTitle}</td>
+                    <td className="col-md-2" >{ user.userName}</td>
+                    <td className="col-md-5" >{ user.content}</td>
+                    <td className="col-md-1" >{ user.commentDate}</td>
+                    <td className="col-md-1" style={{textAlign: 'center'}} >
+                        <button className="btn btn-primary" onClick={()=>{handleConfirm(user._id)}} > Confirm </button>
+                    </td>      
                 </tr>
             );
     }) : null;
 
     return (
-        <div style={{display:'block', inlineSize: 'min-content'}}>
-            <table id="customers">
+        <div className="blogList" >
+            <table id="customers" className="col-sm-12">
                 <tr>
-                    <th> No </th>
-                    <th> UserName </th>
-                    <th> Description </th>
-                    <th> Performance </th>
-
+                    <th className="col-md-1">{ 'No' }</th>
+                    <th className="col-md-2">{ 'BlogTitle' }</th>
+                    <th className="col-md-2">{ 'UserName' }</th>
+                    <th className="col-md-5">{ 'Description' }</th>
+                    <th className="col-md-1">{ 'CommentDate' }</th>
+                    <th className="col-md-1">{ 'Performance' }</th>      
                 </tr>
                 { list }
             </table>
