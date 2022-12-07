@@ -13,7 +13,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "forever": "^0.15.3",
     "handlebars": "*",
     "mongoose": "^5.4.1"
